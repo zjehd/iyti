@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bot Terminal</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="terminal-container" id="terminal"></div>
+    <input type="text" id="command-input" placeholder="Type a command..." />
+    <button onclick="sendCommand()">Run Command</button>
+
+    <script>
+        function sendCommand() {
+            const command = document.getElementById("command-input").value;
+            if (command) {
+                fetch(`/run_command`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command })
+                }).then(response => response.json()).then(data => {
+                    document.getElementById("terminal").innerHTML += `<p>${data.output}</p>`;
+                });
+            }
+        }
+    </script>
+</body>
+</html>
